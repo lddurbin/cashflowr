@@ -4,6 +4,8 @@
 #' @param type The budget type, either "operating_spend" or "income".
 #' @param period Should the values be calculated as monthly or fortnightly?
 #'   Default is monthly.
+#' @param value_period Is this being converted from "monthly" (the default) or
+#'   "annually"?
 #'
 #' @return A numeric value.
 #'
@@ -18,7 +20,7 @@
 #'
 #' # Sum operating spend:
 #' get_total(test_data, type = "operating_spend")
-get_total <- function(data, type, period = "monthly") {
+get_total <- function(data, type, period = "monthly", value_period = "monthly") {
   total <- value <- NULL
 
   total_spend <- data |>
@@ -27,7 +29,7 @@ get_total <- function(data, type, period = "monthly") {
     pull(total)
 
   if(period == "fortnightly") {
-    total_spend <- get_by_fortnight(total_spend)
+    total_spend <- get_by_fortnight(total_spend, value_period = value_period)
   }
 
   return(total_spend)
@@ -62,6 +64,8 @@ get_by_fortnight <- function(value, value_period = "monthly") {
 #' @param data A tibble with three columns: item, type, and value.
 #' @param period Should the values be calculated as monthly or fortnightly?
 #'   Default is monthly.
+#' @param value_period Is this being converted from "monthly" (the default) or
+#'   "annually"?
 #'
 #' @return A numeric value.
 #' @export
@@ -75,14 +79,14 @@ get_by_fortnight <- function(value, value_period = "monthly") {
 #'
 #' #Total net income:
 #' get_net_income(test_data)
-get_net_income <- function(data, period = "monthly") {
+get_net_income <- function(data, period = "monthly", value_period = "monthly") {
   total_income <- get_total(data, "income")
   total_operating_spend <- get_total(data, "operating_spend")
 
   net_income <- total_income - total_operating_spend
 
   if(period == "fortnightly") {
-    net_income <- get_by_fortnight(net_income)
+    net_income <- get_by_fortnight(net_income, value_period = value_period)
   }
 
   return(net_income)

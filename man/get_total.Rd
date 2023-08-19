@@ -4,7 +4,7 @@
 \alias{get_total}
 \title{Get Total By Budget Type}
 \usage{
-get_total(data, type, period = "monthly")
+get_total(data, type, period = "monthly", value_period = "monthly")
 }
 \arguments{
 \item{data}{A tibble with three columns: item, type, and value.}
@@ -13,6 +13,9 @@ get_total(data, type, period = "monthly")
 
 \item{period}{Should the values be calculated as monthly or fortnightly?
 Default is monthly.}
+
+\item{value_period}{Is this being converted from "monthly" (the default) or
+"annually"?}
 }
 \value{
 A numeric value.
