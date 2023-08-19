@@ -4,10 +4,13 @@
 \alias{get_net_income}
 \title{Calculate Income After Operating Spend}
 \usage{
-get_net_income(data)
+get_net_income(data, period = "monthly")
 }
 \arguments{
 \item{data}{A tibble with three columns: item, type, and value.}
+
+\item{period}{Should the values be calculated as monthly or fortnightly?
+Default is monthly.}
 }
 \value{
 A numeric value.

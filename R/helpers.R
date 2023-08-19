@@ -26,19 +26,33 @@ get_total <- function(data, type, period = "monthly") {
     filter(type == {{type}}) |>
     pull(total)
 
-  total_spend_per_period <- dplyr::if_else(
-    period == "monthly",
-    total_spend,
-    (total_spend*12)/26
-  )
+  if(period == "fortnightly") {
+    total_spend <- get_by_fortnight(total_spend)
+  }
 
-  return(total_spend_per_period)
+  return(total_spend)
+}
+
+
+#' Calculate Value As Fortnightly
+#'
+#' @param value A numeric value.
+#'
+#' @return A numeric value.
+#'
+#' @noRd
+get_by_fortnight <- function(value) {
+  by_fortnight <- (value*12)/26
+
+  return(by_fortnight)
 }
 
 
 #' Calculate Income After Operating Spend
 #'
 #' @param data A tibble with three columns: item, type, and value.
+#' @param period Should the values be calculated as monthly or fortnightly?
+#'   Default is monthly.
 #'
 #' @return A numeric value.
 #' @export
@@ -52,11 +66,15 @@ get_total <- function(data, type, period = "monthly") {
 #'
 #' #Total net income:
 #' get_net_income(test_data)
-get_net_income <- function(data) {
+get_net_income <- function(data, period = "monthly") {
   total_income <- get_total(data, "income")
   total_operating_spend <- get_total(data, "operating_spend")
 
   net_income <- total_income - total_operating_spend
+
+  if(period == "fortnightly") {
+    net_income <- get_by_fortnight(net_income)
+  }
 
   return(net_income)
 }

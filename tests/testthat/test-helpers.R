@@ -19,3 +19,8 @@ test_that("we can return total net income", {
 
   expect_equal(get_net_income(test_data), 1800)
 })
+
+
+test_that("a monthly value is returned as a fortnightly value", {
+  expect_equal(get_by_fortnight(900), 415.38462)
+})
