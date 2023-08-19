@@ -37,12 +37,21 @@ get_total <- function(data, type, period = "monthly") {
 #' Calculate Value As Fortnightly
 #'
 #' @param value A numeric value.
+#' @param value_period Is this being converted from "monthly" (the default) or
+#'   "annually"?
 #'
 #' @return A numeric value.
 #'
 #' @noRd
-get_by_fortnight <- function(value) {
-  by_fortnight <- (value*12)/26
+get_by_fortnight <- function(value, value_period = "monthly") {
+  if(value_period == "monthly") {
+    by_fortnight <- (value*12)/26
+  }
+
+  if(value_period == "annually") {
+    by_fortnight <- value/26
+  }
+
 
   return(by_fortnight)
 }
