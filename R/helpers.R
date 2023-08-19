@@ -105,7 +105,7 @@ get_net_income <- function(data, period = "monthly", value_period = "monthly") {
 #' @param value_period Is this being converted from "monthly" (the default) or
 #'   "annually"?
 #'
-#' @return
+#' @return A numeric value.
 #' @export
 #'
 #' @examples
@@ -125,4 +125,34 @@ get_savings_allowance <- function(net_income, disposable_income_allowance = 1000
   }
 
   return(savings_allowance)
+}
+
+
+#' Calculate Individual Contribution
+#'
+#' @param income A numeric value expressing the income for this individual.
+#' @param dispoable_allowance A numeric value expressing the amount set aside as
+#'   disposable income.
+#'
+#' @return A numeric value.
+#' @export
+#'
+#' @examples
+#' library(dplyr)
+#'
+#' test_data <- tibble::tibble(
+#'   item = c("Item 1", "Item 2", "Item 3", "Item 1", "Item 2"),
+#'   type = c(rep("operating_spend", 3), rep("income", 2)),
+#'   value = c(100,250,50,1000,1200)
+#' )
+#'
+#' income <- test_data |>
+#' filter(type == "income" & item == "Item 1") |>
+#' pull(value)
+#'
+#' get_contribution(income, 250)
+get_contribution <- function(income, dispoable_allowance) {
+  contribution <- income - dispoable_allowance
+
+  return(contribution)
 }

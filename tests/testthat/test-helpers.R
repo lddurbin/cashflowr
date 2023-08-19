@@ -42,3 +42,18 @@ test_that("total savings allowance is correctly returned and returned as either 
   expect_equal(get_savings_allowance(net_income), -200)
   expect_equal(get_savings_allowance(net_income, period = "fortnightly"), -92.307692)
 })
+
+
+test_that("an individual contribution can be calculated", {
+  test_data <- tibble::tibble(
+    item = c("Item 1", "Item 2", "Item 3", "Item 1", "Item 2"),
+    type = c(rep("operating_spend", 3), rep("income", 2)),
+    value = c(100,250,50,1000,1200)
+  )
+
+  income <- test_data |>
+    dplyr::filter(type == "income" & item == "Item 1") |>
+    dplyr::pull(value)
+
+  expect_equal(get_contribution(income, 250), 750)
+})

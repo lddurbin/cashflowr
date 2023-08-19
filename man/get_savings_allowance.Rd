@@ -25,6 +25,9 @@ Default is monthly.}
 \item{value_period}{Is this being converted from "monthly" (the default) or
 "annually"?}
 }
+\value{
+A numeric value.
+}
 \description{
 Calculate Savings Allowance
 }
