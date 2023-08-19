@@ -91,3 +91,38 @@ get_net_income <- function(data, period = "monthly", value_period = "monthly") {
 
   return(net_income)
 }
+
+
+#' Calculate Savings Allowance
+#'
+#' @param net_income Numeric value that represents total net income from all
+#'   sources.
+#' @param disposable_income_allowance Numeric value that represents disposable
+#'   income allowance, default is 1000. Multiplied by 2 in the calculation to
+#'   assume that this budget is for a couple.
+#' @param period Should the values be calculated as monthly or fortnightly?
+#'   Default is monthly.
+#' @param value_period Is this being converted from "monthly" (the default) or
+#'   "annually"?
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' test_data <- tibble::tibble(
+#'   item = c("Item 1", "Item 2", "Item 3", "Item 1", "Item 2"),
+#'   type = c(rep("operating_spend", 3), rep("income", 2)),
+#'   value = c(100,250,50,1000,1200)
+#' )
+#'
+#' get_savings_allowance(get_net_income(test_data))
+get_savings_allowance <- function(net_income, disposable_income_allowance = 1000,
+                                  period = "monthly", value_period = "monthly") {
+  savings_allowance <- net_income - (disposable_income_allowance*2)
+
+  if(period == "fortnightly") {
+    savings_allowance <- get_by_fortnight(savings_allowance, value_period = value_period)
+  }
+
+  return(savings_allowance)
+}
