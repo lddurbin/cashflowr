@@ -1,4 +1,4 @@
-test_that("we can return total operating spend and total income", {
+test_that("we can return total operating spend and total income, monthly or fortnightly", {
   test_data <- tibble::tibble(
     item = c("Item 1", "Item 2", "Item 3", "Item 1", "Item 2"),
     type = c(rep("operating_spend", 3), rep("income", 2)),
@@ -6,11 +6,13 @@ test_that("we can return total operating spend and total income", {
   )
 
   expect_equal(get_total(test_data, "operating_spend"), 400)
+  expect_equal(get_total(test_data, "operating_spend", "fortnightly"), 184.615385)
   expect_equal(get_total(test_data, "income"), 2200)
+  expect_equal(get_total(test_data, "income", "fortnightly"), 1015.38462)
 })
 
 
-test_that("we can return total net income", {
+test_that("we can return total net income, monthly or fortnightly", {
   test_data <- tibble::tibble(
     item = c("Item 1", "Item 2", "Item 3", "Item 1", "Item 2"),
     type = c(rep("operating_spend", 3), rep("income", 2)),
@@ -18,6 +20,7 @@ test_that("we can return total net income", {
   )
 
   expect_equal(get_net_income(test_data), 1800)
+  expect_equal(get_net_income(test_data, "fortnightly"), 830.76923)
 })
 
 
